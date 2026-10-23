@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Benefits of EVs - Smart EV World</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* GLOBAL STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f172a;
+            color: white;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* ANIMATED BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, #1e3a8a55, transparent 35%),
+                radial-gradient(circle at bottom right, #06b6d455, transparent 35%),
+                linear-gradient(to bottom, #0f172a, #111827);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* FIXED NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 70px;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            padding: 18px 20px;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 3px;
+            background: #00ffff;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #00ffff;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* HEADER */
+        header {
+            min-height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeUp 1.2s ease;
+        }
+
+        .hero-content h1 {
+            font-size: 60px;
+            font-weight: 700;
+            background: linear-gradient(to right, #38bdf8, #00ffff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        /* FLOATING EV ICONS */
+        .floating-ev {
+            position: absolute;
+            width: 65px;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #00ffff;
+            font-size: 30px;
+            animation: floatEv 7s ease-in-out infinite;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes floatEv {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-25px);
+            }
+        }
+
+        /* MAIN SECTION */
+        .main-section {
+            max-width: 1300px;
+            margin: auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 45px;
+            margin-bottom: 15px;
+            color: #38bdf8;
+        }
+
+        .section-title p {
+            color: #cbd5e1;
+            font-size: 17px;
+        }
+
+        /* BENEFIT CARDS */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+        }
+
+        .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .card p {
+            color: #d1d5db;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* BUTTON */
+        .btn {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            background: linear-gradient(to right, #0ea5e9, #06b6d4);
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 35px 20px;
+            background: #020617;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: #cbd5e1;
+        }
+
+        footer a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TABLET AND MOBILE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 8px;
+            }
+
+            nav ul {
+                gap: 12px 16px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            body {
+                padding-top: 90px;
+            }
+
+            .hero-content h1 {
+                font-size: 38px;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+
+            .section-title p {
+                font-size: 14px;
+            }
+
+            .main-section {
+                padding: 50px 15px;
+            }
+
+            .floating-ev {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            nav ul {
+                gap: 10px;
+            }
+
+            nav a {
+                font-size: 11px;
+            }
+
+            .hero-content h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FIXED NAVIGATION BAR -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About EVs</a></li>
+            <li><a href="charging.html">Charging Info</a></li>
+            <li><a href="calculator.html">Cost Calculator</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- FLOATING EV ICONS -->
+    <div class="floating-ev" style="top: 20%; left: 5%;">⚡</div>
+    <div class="floating-ev" style="top: 35%; right: 5%;">🚗</div>
+    <div class="floating-ev" style="top: 70%; left: 8%;">🔋</div>
+    <div class="floating-ev" style="top: 80%; right: 8%;">⚡</div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="hero-content">
+            <h1>Benefits of Electric Vehicles</h1>
+
+            <p>
+                Explore the future of transportation with Electric Vehicles.
+                EVs provide cleaner energy, lower costs, smooth driving experience,
+                and a smarter sustainable future for everyone.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <section class="main-section">
+
+        <div class="section-title">
+            <h2>Why Choose EVs?</h2>
+
+            <p>
+                Electric Vehicles are transforming the world with advanced
+                technology and eco-friendly innovation.
+            </p>
+        </div>
+
+        <!-- BENEFITS CARDS -->
+        <div class="benefits-grid">
+
+            <div class="card">
+                <div class="icon">💰</div>
+                <h3>Save Money</h3>
+                <p>
+                    EVs reduce fuel expenses compared to petrol and diesel vehicles.
+                    Charging costs are often lower and more efficient.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🌱</div>
+                <h3>Eco Friendly</h3>
+                <p>
+                    Electric vehicles produce zero tailpipe emissions,
+                    helping reduce air pollution and protect the environment.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🛠️</div>
+                <h3>Low Maintenance</h3>
+                <p>
+                    EVs contain fewer moving parts, which can reduce maintenance
+                    requirements and costs over time.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🚘</div>
+                <h3>Smooth Driving</h3>
+                <p>
+                    Enjoy quiet operation, instant torque, smooth acceleration,
+                    and a modern driving experience.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- EXPLORE BUTTON -->
+        <center>
+            <a href="index.html" class="btn">Explore Smart EV World</a>
+        </center>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            &copy; 2026 Smart EV World |
+            <a href="index.html">Back to Home</a>
+        </p>
+    </footer>
+
+</body>
+</html>
+```

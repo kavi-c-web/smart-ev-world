@@ -1,0 +1,613 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Charging Info - Smart EV World</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* GLOBAL STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #07111f;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ANIMATED BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at top left, #00ffff33, transparent 30%),
+                radial-gradient(circle at bottom right, #2563eb44, transparent 30%),
+                linear-gradient(to bottom, #07111f, #0f172a);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.18;
+            animation: moveBg 40s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes moveBg {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-500px);
+            }
+        }
+
+        /* FIXED NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 70px;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 18px 20px;
+
+            background: rgba(7, 17, 31, 0.96);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            list-style: none;
+        }
+
+        nav a {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            left: 0;
+            bottom: -7px;
+            background: #00ffff;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #00ffff;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* HEADER */
+        header {
+            min-height: 65vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            /* Space for fixed navbar */
+            padding: 130px 20px 40px;
+        }
+
+        .hero {
+            max-width: 950px;
+            animation: fadeUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 65px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+
+            background: linear-gradient(to right, #38bdf8, #00ffff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        /* FLOATING ICONS */
+        .floating-icon {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 35px;
+            color: #00ffff;
+
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+            animation: floatIcon 7s ease-in-out infinite;
+
+            pointer-events: none;
+        }
+
+        @keyframes floatIcon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        /* MAIN SECTION */
+        .main-section {
+            max-width: 1300px;
+            margin: auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 48px;
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #cbd5e1;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* CHARGING CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+
+            padding: 40px 25px;
+            text-align: center;
+
+            position: relative;
+            overflow: hidden;
+
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+
+            background: linear-gradient(
+                45deg,
+                transparent,
+                #00ffff33,
+                transparent
+            );
+
+            top: -60%;
+            left: -150%;
+            transform: rotate(25deg);
+            transition: 0.8s;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #00ffff;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite;
+        }
+
+        .card h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #d1d5db;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* INFORMATION BOX */
+        .info-box {
+            margin-top: 70px;
+
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            padding: 45px;
+            border-radius: 25px;
+            text-align: center;
+
+            backdrop-filter: blur(12px);
+            transition: 0.4s;
+        }
+
+        .info-box:hover {
+            box-shadow: 0 15px 35px rgba(0, 255, 255, 0.18);
+        }
+
+        .info-box h3 {
+            font-size: 35px;
+            color: #38bdf8;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #d1d5db;
+            line-height: 1.9;
+            font-size: 17px;
+        }
+
+        /* BUTTON */
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 35px;
+
+            border-radius: 50px;
+            background: linear-gradient(to right, #06b6d4, #2563eb);
+
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.25);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 255, 255, 0.45);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 50px;
+            background: #020617;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        footer p {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* TABLET RESPONSIVE */
+        @media (max-width: 1000px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            .hero h1 {
+                font-size: 50px;
+            }
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 650px) {
+            nav {
+                padding: 12px 8px;
+            }
+
+            nav ul {
+                gap: 12px 18px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            header {
+                min-height: 55vh;
+                padding: 150px 18px 40px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .main-section {
+                padding: 55px 15px;
+            }
+
+            .section-title {
+                margin-bottom: 35px;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+
+            .section-title p {
+                font-size: 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .card h3 {
+                font-size: 23px;
+            }
+
+            .info-box {
+                margin-top: 40px;
+                padding: 30px 20px;
+            }
+
+            .info-box h3 {
+                font-size: 28px;
+            }
+
+            .info-box p {
+                font-size: 15px;
+            }
+
+            .floating-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FIXED NAVBAR -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About EVs</a></li>
+            <li><a href="benefits.html">Benefits</a></li>
+            <li><a href="calculator.html">Cost Calculator</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- FLOATING ICONS -->
+    <div class="floating-icon" style="top: 15%; left: 5%; animation-duration: 7s;">⚡</div>
+
+    <div class="floating-icon" style="top: 30%; right: 5%; animation-duration: 9s;">🔋</div>
+
+    <div class="floating-icon" style="top: 70%; left: 5%; animation-duration: 8s;">🚗</div>
+
+    <div class="floating-icon" style="top: 80%; right: 5%; animation-duration: 10s;">⚡</div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="hero">
+            <h1>Charging Your EV Made Easy</h1>
+
+            <p>
+                Learn how Electric Vehicles can be charged quickly and
+                efficiently using smart charging technology, fast chargers,
+                and home charging solutions.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN SECTION -->
+    <section class="main-section">
+
+        <div class="section-title">
+            <h2>EV Charging Options</h2>
+
+            <p>
+                Modern EV charging systems are designed for convenience,
+                speed, and energy efficiency.
+            </p>
+        </div>
+
+        <!-- CHARGING CARDS -->
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">⚡</div>
+
+                <h3>Fast Charger</h3>
+
+                <p>
+                    Fast charging stations can charge compatible EV batteries
+                    much faster than standard chargers, making long-distance
+                    travel easier.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🔋</div>
+
+                <h3>Normal Charger</h3>
+
+                <p>
+                    Home or standard chargers are convenient for everyday
+                    charging. Charging time depends on battery capacity,
+                    charger power, and the vehicle.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">📍</div>
+
+                <h3>Charging Stations</h3>
+
+                <p>
+                    Public EV charging stations help drivers charge their
+                    vehicles while travelling and make longer journeys easier
+                    to plan.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- SMART CHARGING TIPS -->
+        <div class="info-box">
+
+            <h3>Smart Charging Tips</h3>
+
+            <p>
+                Plan your trips using nearby charging stations. Follow your
+                vehicle manufacturer's battery charging recommendations.
+                Smart charging can help manage energy use and make EV
+                ownership more convenient.
+            </p>
+
+            <a href="index.html" class="btn">
+                Explore Smart EV World
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            © 2026 Smart EV World |
+            <a href="index.html">Back to Home</a>
+        </p>
+    </footer>
+
+</body>
+
+</html>
+```
