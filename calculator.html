@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Advanced EV Cost Calculator - Smart EV World</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   GLOBAL STYLES
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:linear-gradient(135deg,#06142e,#0b1f3a,#122b4a);
+    color:#fff;
+    overflow-x:hidden;
+    min-height:100vh;
+    position:relative;
+}
+
+/* =========================
+   ANIMATED BACKGROUND
+========================= */
+
+.background-glow{
+    position:fixed;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle,#1a73e855,transparent 70%);
+    top:-200px;
+    right:-200px;
+    z-index:-2;
+    animation:moveGlow 8s infinite alternate;
+}
+
+.background-glow2{
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle,#00ffd555,transparent 70%);
+    bottom:-200px;
+    left:-200px;
+    z-index:-2;
+    animation:moveGlow2 10s infinite alternate;
+}
+
+@keyframes moveGlow{
+    from{transform:translateY(0px);}
+    to{transform:translateY(50px);}
+}
+
+@keyframes moveGlow2{
+    from{transform:translateX(0px);}
+    to{transform:translateX(60px);}
+}
+
+/* =========================
+   FLOATING EV ICONS
+========================= */
+
+.floating-ev{
+    position:fixed;
+    width:45px;
+    height:45px;
+    background:url('https://cdn-icons-png.flaticon.com/512/2554/2554936.png') no-repeat center;
+    background-size:contain;
+    opacity:0.15;
+    z-index:-1;
+    animation:floatEv linear infinite;
+}
+
+@keyframes floatEv{
+    0%{
+        transform:translateY(0px) rotate(0deg);
+    }
+    50%{
+        transform:translateY(-25px) rotate(10deg);
+    }
+    100%{
+        transform:translateY(0px) rotate(0deg);
+    }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    padding:100px 20px 30px 20px; /* increased top padding for navbar space */
+    text-align:center;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+
+header h1{
+    font-size:50px;
+    font-weight:700;
+    background:linear-gradient(to right,#00ffd5,#4da3ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:glowText 2s infinite alternate;
+}
+
+header p{
+    margin-top:10px;
+    color:#d7e8ff;
+    font-size:18px;
+}
+
+@keyframes glowText{
+    from{
+        text-shadow:0 0 10px #00ffd5;
+    }
+    to{
+        text-shadow:0 0 25px #4da3ff;
+    }
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav{
+    position:absolute; /* changed from sticky to absolute */
+    top:20px;          /* position above header */
+    left:50%;
+    transform:translateX(-50%);
+    z-index:1000;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(12px);
+    padding:18px;
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    border-radius:30px;
+    box-shadow:0 2px 20px rgba(0,0,0,0.3);
+}
+
+nav a{
+    text-decoration:none;
+    color:#fff;
+    font-weight:600;
+    position:relative;
+    transition:0.4s;
+}
+
+nav a::after{
+    content:'';
+    position:absolute;
+    width:0%;
+    height:3px;
+    left:0;
+    bottom:-6px;
+    background:#00ffd5;
+    transition:0.4s;
+    border-radius:20px;
+}
+
+nav a:hover{
+    color:#00ffd5;
+    transform:translateY(-3px);
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:80px 20px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.calculator-card{
+    width:100%;
+    max-width:850px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter:blur(18px);
+    border-radius:30px;
+    padding:50px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+    transition:0.5s;
+    position:relative;
+    overflow:hidden;
+}
+
+.calculator-card:hover{
+    transform:translateY(-8px) scale(1.01);
+    box-shadow:0 20px 60px rgba(0,255,213,0.25);
+}
+
+.calculator-card::before{
+    content:'';
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:radial-gradient(circle,#00ffd522,transparent 70%);
+    top:-100px;
+    right:-100px;
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.calculator-card h2{
+    text-align:center;
+    font-size:38px;
+    margin-bottom:15px;
+    color:#00ffd5;
+}
+
+.calculator-card p{
+    text-align:center;
+    margin-bottom:40px;
+    color:#d4e6ff;
+    line-height:1.8;
+}
+
+/* =========================
+   FORM GRID
+========================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group label{
+    margin-bottom:10px;
+    font-weight:500;
+    color:#fff;
+}
+
+.input-group input{
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background:rgba(255,255,255,0.12);
+    color:#fff;
+    outline:none;
+    font-size:16px;
+    transition:0.4s;
+    border:2px solid transparent;
+}
+
+.input-group input:focus{
+    border:2px solid #00ffd5;
+    transform:scale(1.03);
+    box-shadow:0 0 15px rgba(0,255,213,0.4);
+}
+
+.input-group input::placeholder{
+    color:#cfdfff;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn-box{
+    text-align:center;
+    margin-top:40px;
+}
+
+button{
+    padding:16px 45px;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(135deg,#00ffd5,#1a73e8);
+    color:#fff;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.4s;
+    position:relative;
+    overflow:hidden;
+}
+
+button:hover{
+    transform:translateY(-5px) scale(1.05);
+    box-shadow:0 10px 30px rgba(0,255,213,0.4);
+}
+
+button::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,0.2);
+    transition:0.5s;
+}
+
+button:hover::before{
+    left:100%;
+}
+
+/* =========================
+   RESULT BOX
+========================= */
+
+.result{
+    margin-top:40px;
+    background:rgba(255,255,255,0.08);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    display:none;
+    animation:fadeIn 0.6s ease;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.result h3{
+    color:#00ffd5;
+    margin-bottom:20px;
+    font-size:28px;
+}
+
+.result p{
+    margin:15px 0;
+    font-size:20px;
+}
+
+.highlight{
+    color:#00ffd5;
+    font-weight:700;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0px);
+    }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:50px;
+    padding:25px;
+    text-align:center;
+    background:rgba(255,255,255,0.06);
+    color:#d7e8ff;
+}
+
+footer a{
+    color:#00ffd5;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+footer a:hover{
+    letter-spacing:1px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    header h1{
+        font-size:36px;
+    }
+
+    nav{
+        flex-wrap:wrap;
+        gap:15px;
+    }
+
+    .calculator-card{
+        padding:30px 20px;
+    }
+
+    .calculator-card h2{
+        font-size:30px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background-glow"></div>
+<div class="background-glow2"></div>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About EVs</a>
+    <a href="benefits.html">Benefits</a>
+    <a href="charging.html">Charging</a>
+    <a href="Calculator.html">Calculator</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<header>
+    <h1>⚡ EV Cost Calculator</h1>
+    <p>Calculate Your Fuel Savings with Electric Vehicles</p>
+</header>
+
+<div class="container">
+
+    <div class="calculator-card">
+
+        <h2>Smart Savings Calculator</h2>
+
+        <p>
+            Compare your petrol expenses with electric vehicle charging cost
+            and discover how much money you can save every month.
+        </p>
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>Daily Distance (km)</label>
+                <input type="number" id="distance" placeholder="Enter distance">
+            </div>
+
+            <div class="input-group">
+                <label>Fuel Price (₹ per litre)</label>
+                <input type="number" id="fuelPrice" placeholder="Enter fuel price">
+            </div>
+
+            <div class="input-group">
+                <label>Vehicle Mileage (km/l)</label>
+                <input type="number" id="mileage" placeholder="Enter mileage">
+            </div>
+
+            <div class="input-group">
+                <label>Electricity Price (₹ per kWh)</label>
+                <input type="number" id="electricityPrice" placeholder="Enter electricity price">
+            </div>
+
+        </div>
+
+        <div class="btn-box">
+            <button onclick="calculateSavings()">
+                Calculate Savings
+            </button>
+        </div>
+
+        <div class="result" id="result">
+
+            <h3>Estimated Savings</h3>
+
+            <p>
+                Petrol Cost Per Day:
+                <span class="highlight" id="petrolCost"></span>
+            </p>
+
+            <p>
+                EV Charging Cost Per Day:
+                <span class="highlight" id="evCost"></span>
+            </p>
+
+            <p>
+                Monthly Savings:
+                <span class="highlight" id="monthlySavings"></span>
+            </p>
+
+            <p>
+                Yearly Savings:
+                <span class="highlight" id="yearlySavings"></span>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    © 2026 Smart EV World |
+    <a href="index.html">Back to Home</a>
+</footer>
+
+<script>
+
+/* =========================
+   FLOATING EV ICONS
+========================= */
+
+for(let i = 0; i < 15; i++){
+
+    let ev = document.createElement('div');
+
+    ev.className = 'floating-ev';
+
+    ev.style.top = Math.random() * window.innerHeight + 'px';
+
+    ev.style.left = Math.random() * window.innerWidth + 'px';
+
+    ev.style.animationDuration = (5 + Math.random() * 5) + 's';
+
+    document.body.appendChild(ev);
+}
+
+/* =========================
+   CALCULATOR FUNCTION
+========================= */
+
+function calculateSavings(){
+
+    const distance = parseFloat(document.getElementById('distance').value);
+
+    const fuelPrice = parseFloat(document.getElementById('fuelPrice').value);
+
+    const mileage = parseFloat(document.getElementById('mileage').value);
+
+    const electricityPrice = parseFloat(document.getElementById('electricityPrice').value);
+
+    if(
+        isNaN(distance) ||
+        isNaN(fuelPrice) ||
+        isNaN(mileage) ||
+        isNaN(electricityPrice)
+    ){
+
+        alert("Please fill all fields correctly!");
+
+        return;
+    }
+
+    /* Petrol Vehicle Cost */
+
+    const petrolCost = (distance / mileage) * fuelPrice;
+
+    /* EV Cost Assumption:
+       1 kWh = 6 km
+    */
+
+    const evCost = (distance / 6) * electricityPrice;
+
+    /* Savings */
+
+    const dailySavings = petrolCost - evCost;
+
+    const monthlySavings = dailySavings * 30;
+
+    const yearlySavings = dailySavings * 365;
+
+    /* DISPLAY RESULTS */
+
+    document.getElementById('result').style.display = 'block';
+
+    document.getElementById('petrolCost').innerHTML =
+        "₹ " + petrolCost.toFixed(2);
+
+    document.getElementById('evCost').innerHTML =
+        "₹ " + evCost.toFixed(2);
+
+    document.getElementById('monthlySavings').innerHTML =
+        "₹ " + monthlySavings.toFixed(2);
+
+    document.getElementById('yearlySavings').innerHTML =
+        "₹ " + yearlySavings.toFixed(2);
+
+}
+
+</script>
+
+</body>
+</html>
